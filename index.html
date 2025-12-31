@@ -7,29 +7,20 @@
 
 <style>
 :root{
-  --bg:#0b0f17;
   --card:#121a2a;
   --yellow:#f5c542;
   --yellow-dark:#d4a72c;
   --text:#f8f8f8;
   --muted:#c9c9c9;
 }
-
 *{box-sizing:border-box}
-
 body{
   margin:0;
   background:linear-gradient(180deg,#0b0f17,#10162a);
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
   color:var(--text);
 }
-
-.wrap{
-  max-width:760px;
-  margin:0 auto;
-  padding:24px;
-}
-
+.wrap{max-width:820px;margin:0 auto;padding:24px}
 .card{
   background:var(--card);
   border-radius:18px;
@@ -37,75 +28,53 @@ body{
   box-shadow:0 14px 40px rgba(0,0,0,.45);
   border:1px solid rgba(245,197,66,.15);
 }
+h1{margin:0 0 10px;font-size:24px;color:var(--yellow)}
+p{margin:0 0 14px;color:var(--muted);line-height:1.6}
+h3{margin:18px 0 10px;color:var(--yellow);font-size:16px}
 
-h1{
-  margin:0 0 10px;
-  font-size:24px;
-  color:var(--yellow);
-}
-
-p{
-  margin:0 0 16px;
-  color:var(--muted);
-  line-height:1.6;
-}
-
-/* ===== OPTIONS GRID (BUG FIX) ===== */
-.options{
+/* grids */
+.options, .sales{
   display:grid;
-  grid-template-columns:repeat(3, minmax(0,1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
   gap:12px;
-  margin-bottom:14px;
+}
+@media (max-width:900px){
+  .options,.sales{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:600px){
+  .options,.sales{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:420px){
+  .options,.sales{grid-template-columns:1fr}
 }
 
-@media (max-width:820px){
-  .options{ grid-template-columns:repeat(2,1fr); }
-}
-@media (max-width:520px){
-  .options{ grid-template-columns:1fr; }
-}
-
-.option{
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
+.option, .sales label{
+  display:flex;align-items:center;gap:10px;
   background:#0f1628;
   border:1px solid rgba(245,197,66,.25);
   border-radius:14px;
-  padding:14px;
+  padding:12px;
   cursor:pointer;
   transition:.2s;
-  min-height:64px;
 }
-
-.option:hover{
-  background:#141c33;
-}
-
-.option input{
+.option:hover, .sales label:hover{background:#141c33}
+.option input, .sales input{
   accent-color:var(--yellow);
-  margin-top:2px;
   flex:0 0 auto;
 }
 
-.option span{
-  line-height:1.25;
-}
-
-/* ===== TEXTAREA ===== */
 textarea{
   width:100%;
-  min-height:120px;
+  min-height:130px;
   background:#0f1628;
   border:1px solid rgba(245,197,66,.35);
   border-radius:14px;
   padding:14px;
   color:#fff;
   font-size:15px;
-  margin-top:6px;
+  margin-top:10px
 }
 
-/* ===== BUTTONS ===== */
 .btn{
   width:100%;
   padding:15px;
@@ -114,25 +83,19 @@ textarea{
   font-size:16px;
   font-weight:800;
   cursor:pointer;
-  margin-top:12px;
+  margin-top:12px
 }
-
 .copy{
   background:linear-gradient(180deg,var(--yellow),var(--yellow-dark));
-  color:#000;
+  color:#000
 }
-
 .go{
   background:#1b1b1b;
   color:var(--yellow);
-  border:1px solid rgba(245,197,66,.4);
+  border:1px solid rgba(245,197,66,.4)
 }
-
-.ok{
-  margin-top:8px;
-  color:#7CFF7C;
-  font-weight:700;
-}
+.ok{margin-top:8px;color:#7CFF7C;font-weight:700}
+.small{font-size:12px;color:var(--muted);margin-top:10px}
 </style>
 </head>
 
@@ -140,76 +103,101 @@ textarea{
 <div class="wrap">
   <div class="card">
     <h1>⭐ Leave Us a Google Review</h1>
-    <p>
-      Choose one review below.  
-      Copy the text, then open Google Review and paste it.
-    </p>
+    <p>Select a review style and the sales consultant who assisted you.</p>
 
-    <!-- REVIEW OPTIONS -->
+    <!-- REVIEW STYLE -->
+    <h3>1️⃣ Review Style</h3>
     <div class="options">
       <label class="option">
-        <input type="radio" name="review"
-        value="The service was professional and smooth from start to finish. The workmanship is neat and the final result looks great. Highly recommended.">
-        <span>Professional & Reliable</span>
+        <input type="radio" name="style" value="professional">
+        Professional & Reliable
       </label>
-
       <label class="option">
-        <input type="radio" name="review"
-        value="Very satisfied with the overall experience. The team was friendly, responsive, and completed the work efficiently. Will definitely recommend to others.">
-        <span>Friendly & Satisfied</span>
+        <input type="radio" name="style" value="friendly">
+        Friendly & Satisfied
       </label>
-
       <label class="option">
-        <input type="radio" name="review"
-        value="Good quality work with attention to detail. Communication was clear and the result exceeded my expectations. Worth the value.">
-        <span>Quality & Detail Focused</span>
+        <input type="radio" name="style" value="detail">
+        Quality & Detail Focused
       </label>
-
       <label class="option">
-        <input type="radio" name="review"
-        value="Fast, professional, and hassle-free service. The finished work looks premium and well done. Highly recommended.">
-        <span>Short & Premium</span>
+        <input type="radio" name="style" value="short">
+        Short & Premium
       </label>
     </div>
 
-    <!-- TEXTAREA -->
-    <textarea id="reviewText" placeholder="Your selected review text will appear here"></textarea>
+    <!-- SALES -->
+    <h3>2️⃣ Sales Consultant (Optional)</h3>
+    <div class="sales">
+      <label><input type="radio" name="sales" value="Royce">Royce</label>
+      <label><input type="radio" name="sales" value="Chloe">Chloe</label>
+      <label><input type="radio" name="sales" value="Shaun">Shaun</label>
+      <label><input type="radio" name="sales" value="Jym">Jym</label>
+      <label><input type="radio" name="sales" value="Faiez">Faiez</label>
+      <label><input type="radio" name="sales" value="Awin">Awin</label>
+      <label><input type="radio" name="sales" value="Hinz">Hinz</label>
+      <label><input type="radio" name="sales" value="Yin">Yin</label>
+      <label><input type="radio" name="sales" value="Nina">Nina</label>
+      <label><input type="radio" name="sales" value="Haiqal">Haiqal</label>
+    </div>
+
+    <!-- RESULT -->
+    <textarea id="reviewText" placeholder="Your review will appear here"></textarea>
 
     <button class="btn copy" onclick="copyText()">Copy Review Text</button>
     <div id="status"></div>
 
     <button class="btn go" onclick="goReview()">Open Google Review</button>
+
+    <div class="small" id="linkInfo"></div>
   </div>
 </div>
 
 <script>
-const REVIEW_URL = "https://g.page/r/CXVei59PiM1QEAE/review?utm_source=gbp&utm_medium=reviews&utm_campaign=qr";
+// review link (multi outlet supported)
+const params=new URLSearchParams(location.search);
+const FALLBACK="https://g.page/r/CXVei59PiM1QEAE/review";
+const REVIEW_URL=params.get("u")?decodeURIComponent(params.get("u")):FALLBACK;
+document.getElementById("linkInfo").textContent="Review link: "+REVIEW_URL;
 
-// Auto fill textarea when option selected
-document.querySelectorAll('input[name="review"]').forEach(radio=>{
-  radio.addEventListener("change",()=>{
-    document.getElementById("reviewText").value = radio.value;
-  });
-});
-
-// Default select first option
-const first = document.querySelector('input[name="review"]');
-if(first){
-  first.checked = true;
-  document.getElementById("reviewText").value = first.value;
+// templates
+function buildReview(style,sales){
+  const name = sales ? `${sales} ` : "";
+  const prefix = sales ? `${sales} was ` : "The team was ";
+  const map={
+    professional:`${prefix}professional and smooth from start to finish. The workmanship is neat and the final result looks great. Highly recommended.`,
+    friendly:`${name}provided friendly and responsive service throughout the process. Very satisfied with the overall experience.`,
+    detail:`${prefix}very attentive to detail and communicated clearly. The final result exceeded my expectations.`,
+    short:`Fast, professional and hassle-free service. The finished work looks premium and well done.`
+  };
+  return map[style]||"";
 }
 
-function copyText(){
-  const text = document.getElementById("reviewText").value;
-  if(!text) return;
-  navigator.clipboard.writeText(text);
-  document.getElementById("status").innerHTML =
-    '<div class="ok">✔ Review copied</div>';
+function updateText(){
+  const style=document.querySelector('input[name="style"]:checked')?.value;
+  const sales=document.querySelector('input[name="sales"]:checked')?.value;
+  if(style) document.getElementById("reviewText").value=buildReview(style,sales);
 }
 
-function goReview(){
-  window.open(REVIEW_URL,'_blank');
+document.querySelectorAll('input').forEach(i=>i.addEventListener("change",updateText));
+
+// default
+document.querySelector('input[name="style"]').checked=true;
+updateText();
+
+async function copyText(){
+  const t=document.getElementById("reviewText").value;
+  if(!t) return;
+  try{await navigator.clipboard.writeText(t);}
+  catch{
+    const ta=document.createElement("textarea");
+    ta.value=t;document.body.appendChild(ta);
+    ta.select();document.execCommand("copy");
+    document.body.removeChild(ta);
+  }
+  document.getElementById("status").innerHTML='<div class="ok">✔ Review copied</div>';
 }
+function goReview(){window.open(REVIEW_URL,'_blank');}
 </script>
 </body>
 </html>
