@@ -32,7 +32,6 @@ h1{margin:0 0 10px;font-size:24px;color:var(--yellow)}
 p{margin:0 0 14px;color:var(--muted);line-height:1.6}
 h3{margin:18px 0 10px;color:var(--yellow);font-size:16px}
 
-/* grids */
 .options, .sales{
   display:grid;
   grid-template-columns:repeat(4,minmax(0,1fr));
@@ -105,7 +104,6 @@ textarea{
     <h1>⭐ Leave Us a Google Review</h1>
     <p>Select a review style and the sales consultant who assisted you.</p>
 
-    <!-- REVIEW STYLE -->
     <h3>1️⃣ Review Style</h3>
     <div class="options">
       <label class="option">
@@ -126,22 +124,23 @@ textarea{
       </label>
     </div>
 
-    <!-- SALES -->
     <h3>2️⃣ Sales Consultant (Optional)</h3>
-<div class="sales">
-  <label><input type="radio" name="sales" value="Royce">Royce</label>
-  <label><input type="radio" name="sales" value="Chloe">Chloe</label>
-  <label><input type="radio" name="sales" value="Hinz">Hinz</label>
-  <label><input type="radio" name="sales" value="Yin">Yin</label>
-  <label><input type="radio" name="sales" value="Haiqal">Haiqal</label>
-  <label><input type="radio" name="sales" value="Nina">Nina</label>
-  <label><input type="radio" name="sales" value="Awin">Awin</label>
-  <label><input type="radio" name="sales" value="Keisha">Keisha</label>
-  <label><input type="radio" name="sales" value="Adilah">Adilah</label>
-  <label><input type="radio" name="sales" value="Boss Alec">Boss Alec</label>
-</div>
+    <div class="sales">
+      <label><input type="radio" name="sales" value="Adilah">Adilah</label>
+      <label><input type="radio" name="sales" value="Awin">Awin</label>
+      <label><input type="radio" name="sales" value="Boss Alec">Boss Alec</label>
+      <label><input type="radio" name="sales" value="Burhan">Burhan</label>
+      <label><input type="radio" name="sales" value="Chloe">Chloe</label>
+      <label><input type="radio" name="sales" value="Fara">Fara</label>
+      <label><input type="radio" name="sales" value="Haiqal">Haiqal</label>
+      <label><input type="radio" name="sales" value="Hinz">Hinz</label>
+      <label><input type="radio" name="sales" value="Keisha">Keisha</label>
+      <label><input type="radio" name="sales" value="Nina">Nina</label>
+      <label><input type="radio" name="sales" value="Royce">Royce</label>
+      <label><input type="radio" name="sales" value="Saufi">Saufi</label>
+      <label><input type="radio" name="sales" value="Yin">Yin</label>
+    </div>
 
-    <!-- RESULT -->
     <textarea id="reviewText" placeholder="Your review will appear here"></textarea>
 
     <button class="btn copy" onclick="copyText()">Copy Review Text</button>
@@ -154,51 +153,60 @@ textarea{
 </div>
 
 <script>
-// review link (multi outlet supported)
-const params=new URLSearchParams(location.search);
-const FALLBACK="https://g.page/r/CXVei59PiM1QEAE/review";
-const REVIEW_URL=params.get("u")?decodeURIComponent(params.get("u")):FALLBACK;
-document.getElementById("linkInfo").textContent="Review link: "+REVIEW_URL;
+const params = new URLSearchParams(location.search);
+const FALLBACK = "https://g.page/r/CXVei59PiM1QEAE/review";
+const REVIEW_URL = params.get("u") ? decodeURIComponent(params.get("u")) : FALLBACK;
+document.getElementById("linkInfo").textContent = "Review link: " + REVIEW_URL;
 
-// templates
-function buildReview(style,sales){
+function buildReview(style, sales){
   const name = sales ? `${sales} ` : "";
   const prefix = sales ? `${sales} was ` : "The team was ";
-  const map={
-    professional:`${prefix}professional and smooth from start to finish. The workmanship is neat and the final result looks great. Highly recommended.`,
-    friendly:`${name}provided friendly and responsive service throughout the process. Very satisfied with the overall experience.`,
-    detail:`${prefix}very attentive to detail and communicated clearly. The final result exceeded my expectations.`,
-    short:`Fast, professional and hassle-free service. The finished work looks premium and well done.`
+
+  const map = {
+    professional: `${prefix}professional and smooth from start to finish. The workmanship is neat and the final result looks great. Highly recommended.`,
+    friendly: `${name}provided friendly and responsive service throughout the process. Very satisfied with the overall experience.`,
+    detail: `${prefix}very attentive to detail and communicated clearly. The final result exceeded my expectations.`,
+    short: `Fast, professional and hassle-free service. The finished work looks premium and well done.`
   };
-  return map[style]||"";
+
+  return map[style] || "";
 }
 
 function updateText(){
-  const style=document.querySelector('input[name="style"]:checked')?.value;
-  const sales=document.querySelector('input[name="sales"]:checked')?.value;
-  if(style) document.getElementById("reviewText").value=buildReview(style,sales);
+  const style = document.querySelector('input[name="style"]:checked')?.value;
+  const sales = document.querySelector('input[name="sales"]:checked')?.value;
+
+  if(style){
+    document.getElementById("reviewText").value = buildReview(style, sales);
+  }
 }
 
-document.querySelectorAll('input').forEach(i=>i.addEventListener("change",updateText));
+document.querySelectorAll('input').forEach(i => i.addEventListener("change", updateText));
 
-// default
-document.querySelector('input[name="style"]').checked=true;
+document.querySelector('input[name="style"]').checked = true;
 updateText();
 
 async function copyText(){
-  const t=document.getElementById("reviewText").value;
+  const t = document.getElementById("reviewText").value;
   if(!t) return;
-  try{await navigator.clipboard.writeText(t);}
-  catch{
-    const ta=document.createElement("textarea");
-    ta.value=t;document.body.appendChild(ta);
-    ta.select();document.execCommand("copy");
+
+  try{
+    await navigator.clipboard.writeText(t);
+  }catch{
+    const ta = document.createElement("textarea");
+    ta.value = t;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand("copy");
     document.body.removeChild(ta);
   }
-  document.getElementById("status").innerHTML='<div class="ok">✔ Review copied</div>';
+
+  document.getElementById("status").innerHTML = '<div class="ok">✔ Review copied</div>';
 }
-function goReview(){window.open(REVIEW_URL,'_blank');}
+
+function goReview(){
+  window.open(REVIEW_URL, '_blank');
+}
 </script>
 </body>
 </html>
-
